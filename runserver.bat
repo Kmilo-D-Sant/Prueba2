@@ -1,0 +1,3 @@
+@echo off
+echo Iniciando Servidor Python de API del Sistema OTNLH...
+py manage.py runserver
