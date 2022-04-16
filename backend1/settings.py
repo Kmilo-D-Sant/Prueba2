@@ -147,14 +147,16 @@ MEDIA_URL = 'media/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-# REST_FRAMEWORK = {
-#     'DEFAULT_AUTHENTICATION_CLASSES': [
-#         'rest_framework.authentication.TokenAuthentication',
-#     ],
-# 'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.IsAuthenticated',]
-# }
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.IsAuthenticated',]
+}
 
-LOGIN_URL = 'http://192.168.8.38:8000/admin'
+# LOGIN_URL = 'http://192.168.8.38:8000/admin'
+LOGIN_URL = 'http://127.0.0.1:8000/admin/'
+
 # REST_FRAMEWORK = {
 #     'DEFAULT_PERMISSION_CLASSES':['rest_framework.permissions.IsAuthenticated',]
 # }

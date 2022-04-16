@@ -1,20 +1,23 @@
-from asyncio.windows_events import NULL
 from django.views.decorators.csrf import csrf_exempt
 from django.http.response import JsonResponse
-from django.contrib.auth.models import BaseUserManager
-from django.db import connection
 from django.shortcuts import render
-from .helpers import errorMetodoNoPermitido, gestionarElementos, respuesta
-from django.contrib.auth.models import User
-from rest_framework.parsers import JSONParser
+from django.db import connection
 from django.contrib.auth import authenticate, login, logout
-from rest_framework import status
+from django.contrib.auth.models import BaseUserManager
 from django.contrib.admin.models import LogEntry
+from django.contrib.auth.models import User
+from asyncio.windows_events import NULL
 
+from rest_framework import status
+from rest_framework.parsers import JSONParser
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import permission_classes, authentication_classes
+from rest_framework.authtoken.models import Token
 
+
+
+from .helpers import errorMetodoNoPermitido, gestionarElementos, respuesta
 from .models import  Diagnostico, Estudiante, Cliente, Entidad, Curso, ControlCalidad, InspeccionSupervicion, LevNorma, EstadoContrato, EstadoSolicitud,TipoDiagnostico, TipoContrato, TipoCurso, Tematica, TipoSolicitud,  TipoEntidad, Organismo, TipoServicio, TipoInstrumento, Magnitud, TipoInspeccion, TipoEspecialista, TipoNorma, Cargo, SectorEconomico, GestCertificado  
 from .serializers import LogSerializer, UserSerializer, DiagnosticoSerializer,EstudianteSerializer, ClienteSerializer, ControlCalidadSerializer,CursoSerializer, EntidadSerializer,TipoDiagnosticoSerializer, InspeccionSupervicionSerializer, LevNormaSerializer, EstContratoSerializer, TipoInstrumento,  EstSolicitudSerializer, TipoContratoSerializer , TipoCursoSerializer, TipoSolicitudSerializer, TipoEntidadSerializer, OrganismoSerializer, TipoServicioSerializer, TipoInstrumentoSerializer, MagnitudSerializer, TipoInspeccionSerializer,TipoEspecialistaSerializer,TipoNormaSerializer, CargoSerializer, SectorEconomicoSerializer, GestCertificadoSerializer,TematicaSerializer
 
@@ -44,12 +47,14 @@ def trazas(request):
 def iniciarSesion(request):
     if request.method == "POST":
         datos = JSONParser().parse(request)
-        username = datos['usuario']
-        password = datos['pass']
+        username = datos['username']
+        password = datos['password']
         acceso = authenticate(username=username, password=password)
         if acceso:
             login(request, acceso)
-            return respuesta('Usuario autenticado con exito')
+            usuario = User.objects.get(username = username)
+            token, _ = Token.objects.get_or_create(user = usuario )
+            return respuesta(token.key)
         return respuesta('Usuario o contraseña inconrrecta')
 
 def cerrarSesion(request):

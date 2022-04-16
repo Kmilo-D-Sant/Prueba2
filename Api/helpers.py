@@ -96,8 +96,7 @@ def gestionarElementos(request: Parameter, modelo: object, serializador: seriali
 #             serializer = EstudianteSerializer(estudiantes, many = True)
 #             return JsonResponse(respuesta(serializer.data), safe= False)
 #         else:
-#             estudiante = Estudiante.objects.filter(id = idAux)
-#             serializer = EstudianteSerializer(instance= estudiante, many = True)
+#             token
 #             return JsonResponse(respuesta(serializer.data), safe= False)
 #     if request.method == 'PUT':
 #         clienteDatos = JSONParser().parse(request)
